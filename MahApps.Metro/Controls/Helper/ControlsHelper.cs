@@ -32,26 +32,35 @@ namespace MahApps.Metro.Controls
             element.SetValue(DisabledVisualElementVisibilityProperty, value);
         }
 
-        public static readonly DependencyProperty PreserveTextCaseProperty = DependencyProperty.RegisterAttached("PreserveTextCase", typeof(bool), typeof(ControlsHelper), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.AffectsMeasure));
+        /// <summary>
+        /// The DependencyProperty for the CharacterCasing property.
+        /// Controls whether or not content is converted to upper or lower case
+        /// </summary>
+        public static readonly DependencyProperty ContentCharacterCasingProperty =
+            DependencyProperty.RegisterAttached(
+                "ContentCharacterCasing",
+                typeof (CharacterCasing),
+                typeof (ControlsHelper),
+                new FrameworkPropertyMetadata(CharacterCasing.Normal, FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.AffectsMeasure),
+                new ValidateValueCallback(value => CharacterCasing.Normal <= (CharacterCasing) value && (CharacterCasing) value <= CharacterCasing.Upper));
 
         /// <summary>
-        /// Gets the value to override the text case behavior for the header content.
-        /// When set to <c>true</c>, the text case will be preserved and won't be changed to upper or lower case.
+        /// Gets the character casing of the control
         /// </summary>
-        [AttachedPropertyBrowsableForType(typeof(Expander))]
-        [AttachedPropertyBrowsableForType(typeof(GroupBox))]
-        public static bool GetPreserveTextCase(UIElement element)
+        [AttachedPropertyBrowsableForType(typeof(ContentControl))]
+        [AttachedPropertyBrowsableForType(typeof(DropDownButton))]
+        [AttachedPropertyBrowsableForType(typeof(WindowCommands))]
+        public static CharacterCasing GetContentCharacterCasing(UIElement element)
         {
-            return (bool)element.GetValue(PreserveTextCaseProperty);
+            return (CharacterCasing)element.GetValue(ContentCharacterCasingProperty);
         }
 
         /// <summary>
-        /// Sets the value to override the text case behavior for the header content.
-        /// When set to <c>true</c>, the text case will be preserved and won't be changed to upper or lower case.
+        /// Sets the character casing of the control
         /// </summary>
-        public static void SetPreserveTextCase(UIElement element, bool value)
+        public static void SetContentCharacterCasing(UIElement element, CharacterCasing value)
         {
-            element.SetValue(PreserveTextCaseProperty, value);
+            element.SetValue(ContentCharacterCasingProperty, value);
         }
 
         public static readonly DependencyProperty HeaderFontSizeProperty =
